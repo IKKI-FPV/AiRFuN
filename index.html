@@ -21,11 +21,12 @@
             align-items: center;
             padding: 20px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .brochure {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             background: rgba(10, 15, 30, 0.85);
             border-radius: 15px;
             overflow: hidden;
@@ -49,6 +50,7 @@
         .page {
             display: none;
             padding: 0;
+            min-height: 80vh;
         }
 
         .active {
@@ -109,9 +111,9 @@
 
         .product-image {
             width: 90%;
-            max-width: 600px;
-            height: 40vh;
-            min-height: 300px;
+            max-width: 700px;
+            height: 50vh;
+            min-height: 400px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             margin: 30px auto;
@@ -124,12 +126,13 @@
             box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
             position: relative;
             z-index: 2;
-            overflow: hidden;
+            overflow: auto;
         }
 
         .product-image img {
-            width: 100%;
-            height: 100%;
+            width: auto;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
 
@@ -160,8 +163,8 @@
 
         .image-container {
             width: 100%;
-            height: 50vh;
-            min-height: 400px;
+            height: 60vh;
+            min-height: 500px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             display: flex;
@@ -172,12 +175,13 @@
             border: 1px solid rgba(0, 168, 255, 0.3);
             box-shadow: 0 0 20px rgba(0, 168, 255, 0.2);
             position: relative;
-            overflow: hidden;
+            overflow: auto;
         }
 
         .image-container img {
-            width: 100%;
-            height: 100%;
+            width: auto;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
         }
 
@@ -291,7 +295,7 @@
             background: rgba(5, 10, 25, 0.9);
             color: #a0a0c0;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             border-radius: 0 0 15px 15px;
             border-top: 1px solid rgba(0, 168, 255, 0.2);
         }
@@ -401,8 +405,8 @@
 
         .full-image-container {
             width: 100%;
-            height: 60vh;
-            min-height: 500px;
+            height: 70vh;
+            min-height: 600px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             display: flex;
@@ -411,13 +415,31 @@
             margin-bottom: 30px;
             border: 1px solid rgba(0, 168, 255, 0.3);
             box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
-            overflow: hidden;
+            overflow: auto;
         }
 
         .full-image-container img {
-            width: 100%;
-            height: 100%;
+            width: auto;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
+        }
+
+        .instructions {
+            background: rgba(0, 30, 60, 0.5);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #00fff2;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
@@ -444,20 +466,17 @@
                 font-size: 0.9rem;
             }
             
-            .product-image {
-                height: 30vh;
-                min-height: 250px;
-            }
-            
-            .image-container {
-                height: 40vh;
+            .product-image, .image-container, .full-image-container {
+                height: 50vh;
                 min-height: 300px;
             }
-            
-            .full-image-container {
-                height: 40vh;
-                min-height: 300px;
-            }
+        }
+
+        .page-indicator {
+            text-align: center;
+            margin: 10px 0;
+            color: #00a8ff;
+            font-family: 'Orbitron', sans-serif;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -467,12 +486,13 @@
         <!-- COPERTINA -->
         <div id="page1" class="page active">
             <div class="cover">
-                <h1>FunAiR</h1>
-                <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA PRESSIONE</p>
+                <h1>AiRFun</h1>
+                <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA POTENZA</p>
                 <div class="product-image">
-                    <img src="1.png" alt="FunAiR - Prodotto Completo">
+                    <img src="1.png" alt="AiRFuN - Prodotto Completo">
                 </div>
                 <p>Prestazioni estreme con design futuristico</p>
+                <div class="page-indicator">Pagina 1 di 8</div>
             </div>
         </div>
 
@@ -481,7 +501,7 @@
             <div class="full-image-section">
                 <h2 class="section-title">PRESTAZIONI ECCEZIONALI</h2>
                 <div class="full-image-container">
-                    <img src="2.png" alt="FunAiR - Prodotto Completo">
+                    <img src="2.png" alt="AiRFun - Prodotto Completo">
                 </div>
                 <div style="max-width: 800px; text-align: center;">
                     <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MOTORE BRUSHLESS AD ALTA VELOCITÀ</h3>
@@ -495,6 +515,7 @@
                         <li>Prestazioni durature nel tempo</li>
                     </ul>
                 </div>
+                <div class="page-indicator">Pagina 2 di 8</div>
             </div>
         </div>
 
@@ -511,8 +532,8 @@
                         
                         <div class="specs-grid">
                             <div class="spec-card">
-                                <div class="spec-title">RICARICA RAPIDA 30W</div>
-                                <p>Tecnologia di ricarica rapida inversa da 30W per tempi di attesa minimi.</p>
+                                <div class="spec-title">RICARICA RAPIDA per tempi di attesa minimi.</div>
+                                <p>Tecnologia di ricarica rapida inversa da 30W per ricariche d'emergenza.</p>
                             </div>
                             <div class="spec-card">
                                 <div class="spec-title">FACILE SOSTITUZIONE</div>
@@ -526,6 +547,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="page-indicator">Pagina 3 di 8</div>
             </div>
         </div>
 
@@ -561,6 +583,7 @@
                     <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">HAIPA LAVABILE PIÙ VOLTE</h3>
                     <p>Il filtro Haipa può essere lavato direttamente con acqua più volte per un uso pratico e igienico, garantendo prestazioni costanti nel tempo.</p>
                 </div>
+                <div class="page-indicator">Pagina 4 di 8</div>
             </div>
         </div>
 
@@ -607,6 +630,125 @@
                         </div>
                     </div>
                 </div>
+                <div class="page-indicator">Pagina 5 di 8</div>
+            </div>
+        </div>
+
+        <!-- PAGINA 6: BATTERIA SOSTITUIBILE -->
+        <div id="page6" class="page">
+            <div class="content-page">
+                <h2 class="section-title">BATTERIA SOSTITUIBILE</h2>
+                
+                <div class="two-column">
+                    <div>
+                        <div class="image-container">
+                            <img src="6.png" alt="Batteria Sostituibile - Istruzioni">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">SOSTITUZIONE RAPIDA E SEMPLICE</h3>
+                        <p>Il sistema di batteria sostituibile di FunAiR ti permette di continuare a lavorare senza interruzioni. Basta pochi secondi per sostituire la batteria e tornare alla massima potenza.</p>
+                        
+                        <div class="instructions">
+                            <h4 style="color: #00fff2; margin-bottom: 10px;">Istruzioni per la sostituzione:</h4>
+                            <ol>
+                                <li>Premi il pulsante di sblocco</li>
+                                <li>Rimuovi la batteria esaurita</li>
+                                <li>Inserisci la batteria carica</li>
+                                <li>Sentirai un click che conferma il blocco</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="specs-grid" style="margin-top: 20px;">
+                            <div class="spec-card">
+                                <div class="spec-title">TEMPO DI SOSTITUZIONE</div>
+                                <p>Meno di 10 secondi</p>
+                            </div>
+                            <div class="spec-card">
+                                <div class="spec-title">SICUREZZA</div>
+                                <p>Sistema di blocco sicuro</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-indicator">Pagina 6 di 8</div>
+            </div>
+        </div>
+
+        <!-- PAGINA 7: BATTERIA CAPIENTE -->
+        <div id="page7" class="page">
+            <div class="full-image-section">
+                <h2 class="section-title">BATTERIA AD ALTA CAPACITÀ</h2>
+                <div class="full-image-container">
+                    <img src="7.png" alt="Batteria Capiente">
+                </div>
+                <div style="max-width: 800px; text-align: center;">
+                    <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">AUTONOMIA EXTRA LUNGA</h3>
+                    <div class="big-number">8000 mAh</div>
+                    <p>La batteria ad alta capacità da 8000 mAh garantisce sessioni di lavoro prolungate senza necessità di ricarica frequente. Ideale per professionisti che necessitano di prestazioni continue.</p>
+                    
+                    <div class="specs-grid" style="margin-top: 30px;">
+                        <div class="spec-card">
+                            <div class="spec-title">DURATA MEDIA</div>
+                            <p>Fino a 45 minuti di uso continuo</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">TECNOLOGIA</div>
+                            <p>Litio-polimero ad alta densità</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">CICLI DI RICARICA</div>
+                            <p>Oltre 500 cicli completi</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">GARANZIA</div>
+                            <p>24 mesi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-indicator">Pagina 7 di 8</div>
+            </div>
+        </div>
+
+        <!-- PAGINA 8: HAIPA LAVABILE -->
+        <div id="page8" class="page">
+            <div class="content-page">
+                <h2 class="section-title">FILTRO HAIPA LAVABILE</h2>
+                
+                <div class="two-column">
+                    <div>
+                        <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MANUTENZIONE SEMPLICE E IGIENICA</h3>
+                        <p>Il sistema di filtrazione Haipa rappresenta l'innovazione nella manutenzione degli aspiratori. Progettato per essere lavato e riutilizzato più volte, garantisce prestazioni costanti nel tempo.</p>
+                        
+                        <div class="instructions">
+                            <h4 style="color: #00fff2; margin-bottom: 10px;">Vantaggi del filtro Haipa:</h4>
+                            <ul class="feature-list">
+                                <li>Lavabile con acqua corrente</li>
+                                <li>Asciugatura rapida</li>
+                                <li>Mantiene l'efficienza di filtrazione</li>
+                                <li>Riduzione dei costi di manutenzione</li>
+                                <li>Minore impatto ambientale</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="specs-grid" style="margin-top: 20px;">
+                            <div class="spec-card">
+                                <div class="spec-title">CICLI DI LAVAGGIO</div>
+                                <p>Oltre 50 lavaggi senza perdita di efficienza</p>
+                            </div>
+                            <div class="spec-card">
+                                <div class="spec-title">MATERIALE</div>
+                                <p>Poliestere ad alta densità</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="image-container">
+                            <img src="8.png" alt="Filtro Haipa Lavabile">
+                        </div>
+                    </div>
+                </div>
+                <div class="page-indicator">Pagina 8 di 8</div>
             </div>
         </div>
     </div>
@@ -622,14 +764,6 @@
             <span class="close-modal" onclick="closeContactModal()">&times;</span>
             <h2 class="contact-title">CONTATTI</h2>
             <div class="company-name">IKKI SOLUTIONS di Gasparato Marco</div>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <strong>Indirizzo:</strong><br>
-                    Via P. Mascagni 4, 37060<br>
-                    Castel D'azzano - Verona
-                </div>
                 
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
@@ -659,23 +793,23 @@
     </div>
 
     <div class="footer">
-        <p>FunAiR - Tecnologia avanzata per una pulizia perfetta | www.funair-tech.it</p>
+        <p>FunAiR - Tecnologia avanzata per una pulizia perfetta | https://ikki-fpv.github.io/AiRFuN/</p>
     </div>
 
     <script>
         let currentPage = 1;
-        const totalPages = 5;
+        const totalPages = 8;
 
         function changePage(direction) {
             // Nascondi pagina corrente
             document.getElementById('page' + currentPage).classList.remove('active');
             
-            // Cambia pagina
+            // Cambia pagina (ciclico)
             currentPage += direction;
             
-            // Controlla i limiti
-            if (currentPage < 1) currentPage = 1;
-            if (currentPage > totalPages) currentPage = totalPages;
+            // Controlla i limiti (ciclico)
+            if (currentPage < 1) currentPage = totalPages;
+            if (currentPage > totalPages) currentPage = 1;
             
             // Mostra nuova pagina
             document.getElementById('page' + currentPage).classList.add('active');
@@ -699,6 +833,34 @@
                 closeContactModal();
             }
         }
+
+        // Aggiungi supporto per lo scroll con mouse/touch sulle immagini
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageContainers = document.querySelectorAll('.image-container, .full-image-container, .product-image');
+            
+            imageContainers.forEach(container => {
+                container.addEventListener('wheel', function(e) {
+                    if (e.deltaY !== 0) {
+                        e.preventDefault();
+                        this.scrollLeft += e.deltaY;
+                    }
+                });
+
+                // Supporto per touch devices
+                let startX;
+                container.addEventListener('touchstart', function(e) {
+                    startX = e.touches[0].clientX;
+                });
+
+                container.addEventListener('touchmove', function(e) {
+                    if (!startX) return;
+                    const x = e.touches[0].clientX;
+                    const walk = (startX - x) * 2;
+                    this.scrollLeft += walk;
+                    startX = x;
+                });
+            });
+        });
     </script>
 </body>
 </html>
