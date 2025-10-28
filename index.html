@@ -25,7 +25,7 @@
 
         .brochure {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             background: rgba(10, 15, 30, 0.85);
             border-radius: 15px;
             overflow: hidden;
@@ -61,7 +61,7 @@
             text-align: center;
             padding: 60px 40px;
             position: relative;
-            min-height: 600px;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -108,8 +108,10 @@
         }
 
         .product-image {
-            width: 350px;
-            height: 250px;
+            width: 90%;
+            max-width: 600px;
+            height: 40vh;
+            min-height: 300px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             margin: 30px auto;
@@ -126,8 +128,8 @@
         }
 
         .product-image img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -146,7 +148,7 @@
         }
 
         .content-page {
-            padding: 50px;
+            padding: 40px;
         }
 
         .two-column {
@@ -156,9 +158,10 @@
             align-items: center;
         }
 
-        .image-placeholder {
+        .image-container {
             width: 100%;
-            height: 280px;
+            height: 50vh;
+            min-height: 400px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             display: flex;
@@ -172,9 +175,9 @@
             overflow: hidden;
         }
 
-        .image-placeholder img {
-            max-width: 100%;
-            max-height: 100%;
+        .image-container img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -288,7 +291,7 @@
             background: rgba(5, 10, 25, 0.9);
             color: #a0a0c0;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             border-radius: 0 0 15px 15px;
             border-top: 1px solid rgba(0, 168, 255, 0.2);
         }
@@ -389,6 +392,34 @@
             font-size: 1.2rem;
         }
 
+        .full-image-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .full-image-container {
+            width: 100%;
+            height: 60vh;
+            min-height: 500px;
+            background: rgba(0, 20, 40, 0.7);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 168, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .full-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
         @media (max-width: 768px) {
             .two-column {
                 grid-template-columns: 1fr;
@@ -413,8 +444,19 @@
                 font-size: 0.9rem;
             }
             
-            .product-image, .image-placeholder {
-                height: 200px;
+            .product-image {
+                height: 30vh;
+                min-height: 250px;
+            }
+            
+            .image-container {
+                height: 40vh;
+                min-height: 300px;
+            }
+            
+            .full-image-container {
+                height: 40vh;
+                min-height: 300px;
             }
         }
     </style>
@@ -428,7 +470,7 @@
                 <h1>FunAiR</h1>
                 <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA PRESSIONE</p>
                 <div class="product-image">
-                    <img src="1.png" alt="FunAiR - Prodotto Completo">
+                    <img src="https://ikki-fpv.github.io/AiRFuN/1.png" alt="FunAiR - Prodotto Completo">
                 </div>
                 <p>Prestazioni estreme con design futuristico</p>
             </div>
@@ -436,27 +478,22 @@
 
         <!-- PAGINA 2: CARATTERISTICHE PRINCIPALI -->
         <div id="page2" class="page">
-            <div class="content-page">
+            <div class="full-image-section">
                 <h2 class="section-title">PRESTAZIONI ECCEZIONALI</h2>
-                
-                <div class="two-column">
-                    <div>
-                        <div class="image-placeholder">
-                            <img src="1.png" alt="Motore Brushless">
-                        </div>
-                    </div>
-                    <div>
-                        <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MOTORE BRUSHLESS AD ALTA VELOCITÀ</h3>
-                        <div class="big-number">138.000 RPM</div>
-                        <p>Motore brushless ad alte prestazioni con velocità massima di <span class="highlight">138.000 giri al minuto</span>. Potente, affidabile e resistente, garantisce prestazioni elevate e durature senza rischio di surriscaldamento anche sotto carichi intensi.</p>
-                        
-                        <ul class="feature-list">
-                            <li>Genera un flusso d'aria potente</li>
-                            <li>Tre livelli di regolazione della velocità</li>
-                            <li>Nessun rischio di surriscaldamento</li>
-                            <li>Prestazioni durature nel tempo</li>
-                        </ul>
-                    </div>
+                <div class="full-image-container">
+                    <img src="https://ikki-fpv.github.io/AiRFuN/1.png" alt="FunAiR - Prodotto Completo">
+                </div>
+                <div style="max-width: 800px; text-align: center;">
+                    <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MOTORE BRUSHLESS AD ALTA VELOCITÀ</h3>
+                    <div class="big-number">138.000 RPM</div>
+                    <p>Motore brushless ad alte prestazioni con velocità massima di <span class="highlight">138.000 giri al minuto</span>. Potente, affidabile e resistente, garantisce prestazioni elevate e durature senza rischio di surriscaldamento anche sotto carichi intensi.</p>
+                    
+                    <ul class="feature-list" style="text-align: left; margin-top: 20px;">
+                        <li>Genera un flusso d'aria potente</li>
+                        <li>Tre livelli di regolazione della velocità</li>
+                        <li>Nessun rischio di surriscaldamento</li>
+                        <li>Prestazioni durature nel tempo</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -484,8 +521,8 @@
                         </div>
                     </div>
                     <div>
-                        <div class="image-placeholder">
-                            <img src="1.png" alt="Batteria Sostituibile">
+                        <div class="image-container">
+                            <img src="https://ikki-fpv.github.io/AiRFuN/1.png" alt="Batteria Sostituibile">
                         </div>
                     </div>
                 </div>
@@ -499,8 +536,8 @@
                 
                 <div class="two-column">
                     <div>
-                        <div class="image-placeholder">
-                            <img src="1.png" alt="Funzione Aspiratore">
+                        <div class="image-container">
+                            <img src="https://ikki-fpv.github.io/AiRFuN/1.png" alt="Funzione Aspiratore">
                         </div>
                     </div>
                     <div>
@@ -529,49 +566,44 @@
 
         <!-- PAGINA 5: SPECIFICHE TECNICHE -->
         <div id="page5" class="page">
-            <div class="content-page">
+            <div class="full-image-section">
                 <h2 class="section-title">SPECIFICHE TECNICHE</h2>
-                
-                <div class="two-column">
-                    <div>
-                        <div class="image-placeholder">
-                            <img src="1.png" alt="FunAiR - Prodotto Completo">
+                <div class="full-image-container">
+                    <img src="https://ikki-fpv.github.io/AiRFuN/1.png" alt="FunAiR - Prodotto Completo">
+                </div>
+                <div style="max-width: 800px;">
+                    <div class="specs-grid">
+                        <div class="spec-card">
+                            <div class="spec-title">VELOCITÀ MASSIMA</div>
+                            <p>138.000 RPM</p>
                         </div>
-                    </div>
-                    <div>
-                        <div class="specs-grid">
-                            <div class="spec-card">
-                                <div class="spec-title">VELOCITÀ MASSIMA</div>
-                                <p>138.000 RPM</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">CAPACITÀ BATTERIA</div>
-                                <p>8000 mAh</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">PRESSIONE VENTO</div>
-                                <p>300g</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">RICARICA RAPIDA</div>
-                                <p>30W</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">TIPO MOTORE</div>
-                                <p>Brushless</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">FILTRO</div>
-                                <p>Haipa lavabile</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">FUNZIONI</div>
-                                <p>Aspirazione, soffiaggio</p>
-                            </div>
-                            <div class="spec-card">
-                                <div class="spec-title">ILLUMINAZIONE</div>
-                                <p>LED integrato</p>
-                            </div>
+                        <div class="spec-card">
+                            <div class="spec-title">CAPACITÀ BATTERIA</div>
+                            <p>8000 mAh</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">PRESSIONE VENTO</div>
+                            <p>300g</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">RICARICA RAPIDA</div>
+                            <p>30W</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">TIPO MOTORE</div>
+                            <p>Brushless</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">FILTRO</div>
+                            <p>Haipa lavabile</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">FUNZIONI</div>
+                            <p>Aspirazione, soffiaggio</p>
+                        </div>
+                        <div class="spec-card">
+                            <div class="spec-title">ILLUMINAZIONE</div>
+                            <p>LED integrato</p>
                         </div>
                     </div>
                 </div>
