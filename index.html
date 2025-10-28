@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FunAiR - Depliant Ufficiale</title>
+    <title>AiRFuN - Depliant Ufficiale</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -109,14 +109,14 @@
             font-weight: 300;
         }
 
-        .product-image {
+        .media-container {
             width: 90%;
-            max-width: 700px;
+            max-width: 800px;
             height: 50vh;
             min-height: 400px;
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
-            margin: 30px auto;
+            margin: 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -126,28 +126,56 @@
             box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
             position: relative;
             z-index: 2;
-            overflow: auto;
+            overflow: hidden;
         }
 
-        .product-image img {
+        .media-container img {
             width: auto;
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
         }
 
-        .product-image::before {
+        .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .media-container::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
             background: linear-gradient(45deg, transparent 40%, rgba(0, 168, 255, 0.1) 50%, transparent 60%);
             animation: shine 3s infinite linear;
+            pointer-events: none;
         }
 
         @keyframes shine {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3;
+        }
+
+        .video-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #00a8ff;
+        }
+
+        .video-placeholder p {
+            font-size: 1.2rem;
+            color: #00fff2;
         }
 
         .content-page {
@@ -266,6 +294,7 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            gap: 15px;
         }
 
         .page-btn {
@@ -273,7 +302,6 @@
             color: #0a0f1f;
             border: none;
             padding: 12px 25px;
-            margin: 0 10px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
@@ -281,6 +309,8 @@
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
             box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
+            flex: 1;
+            max-width: 200px;
         }
 
         .page-btn:hover {
@@ -403,28 +433,6 @@
             padding: 40px;
         }
 
-        .full-image-container {
-            width: 100%;
-            height: 70vh;
-            min-height: 600px;
-            background: rgba(0, 20, 40, 0.7);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-            border: 1px solid rgba(0, 168, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
-            overflow: auto;
-        }
-
-        .full-image-container img {
-            width: auto;
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
         .instructions {
             background: rgba(0, 30, 60, 0.5);
             padding: 25px;
@@ -466,9 +474,19 @@
                 font-size: 0.9rem;
             }
             
-            .product-image, .image-container, .full-image-container {
+            .media-container, .image-container {
                 height: 50vh;
                 min-height: 300px;
+            }
+            
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .page-btn {
+                max-width: 250px;
+                width: 100%;
             }
         }
 
@@ -486,12 +504,29 @@
         <!-- COPERTINA -->
         <div id="page1" class="page active">
             <div class="cover">
-                <h1>AiRFun</h1>
-                <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA POTENZA</p>
-                <div class="product-image">
+                <h1>AiRFuN</h1>
+                <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA PRESSIONE</p>
+                
+                <!-- Immagine del prodotto -->
+                <div class="media-container">
                     <img src="1.png" alt="AiRFuN - Prodotto Completo">
                 </div>
-                <p>Prestazioni estreme con design futuristico</p>
+                
+                <!-- Video dimostrativo -->
+                <div class="media-container">
+                    <video id="demoVideo" controls poster="https://ikki-fpv.github.io/AiRFuN/1.png">
+                        <!-- Sostituisci con il percorso del tuo video -->
+                        <source src="https://ikki-fpv.github.io/AiRFuN/demo-video.mp4" type="video/mp4">
+                        <source src="https://ikki-fpv.github.io/AiRFuN/demo-video.webm" type="video/webm">
+                        Il tuo browser non supporta il tag video.
+                    </video>
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Video dimostrativo AiRFuN</p>
+                    </div>
+                </div>
+                
+                <p>Scopri la potenza di AiRFuN in azione</p>
                 <div class="page-indicator">Pagina 1 di 8</div>
             </div>
         </div>
@@ -500,8 +535,8 @@
         <div id="page2" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">PRESTAZIONI ECCEZIONALI</h2>
-                <div class="full-image-container">
-                    <img src="2.png" alt="AiRFun - Prodotto Completo">
+                <div class="media-container">
+                    <img src="2.png" alt="AiRFuN - Prodotto Completo">
                 </div>
                 <div style="max-width: 800px; text-align: center;">
                     <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MOTORE BRUSHLESS AD ALTA VELOCITÀ</h3>
@@ -532,8 +567,8 @@
                         
                         <div class="specs-grid">
                             <div class="spec-card">
-                                <div class="spec-title">RICARICA RAPIDA per tempi di attesa minimi.</div>
-                                <p>Tecnologia di ricarica rapida inversa da 30W per ricariche d'emergenza.</p>
+                                <div class="spec-title">RICARICA RAPIDA 30W</div>
+                                <p>Tecnologia di ricarica rapida inversa da 30W per tempi di attesa minimi.</p>
                             </div>
                             <div class="spec-card">
                                 <div class="spec-title">FACILE SOSTITUZIONE</div>
@@ -564,7 +599,7 @@
                     </div>
                     <div>
                         <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">DIVENTA FACILMENTE UN ASPIRATORE</h3>
-                        <p>FunAiR si trasforma facilmente in un aspiratore potente e versatile, pronto per ogni esigenza di pulizia.</p>
+                        <p>AiRFuN si trasforma facilmente in un aspiratore potente e versatile, pronto per ogni esigenza di pulizia.</p>
                         
                         <div class="specs-grid">
                             <div class="spec-card">
@@ -591,8 +626,8 @@
         <div id="page5" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">SPECIFICHE TECNICHE</h2>
-                <div class="full-image-container">
-                    <img src="5.png" alt="FunAiR - Prodotto Completo">
+                <div class="media-container">
+                    <img src="5.png" alt="AiRFuN - Prodotto Completo">
                 </div>
                 <div style="max-width: 800px;">
                     <div class="specs-grid">
@@ -647,7 +682,7 @@
                     </div>
                     <div>
                         <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">SOSTITUZIONE RAPIDA E SEMPLICE</h3>
-                        <p>Il sistema di batteria sostituibile di FunAiR ti permette di continuare a lavorare senza interruzioni. Basta pochi secondi per sostituire la batteria e tornare alla massima potenza.</p>
+                        <p>Il sistema di batteria sostituibile di AiRFuN ti permette di continuare a lavorare senza interruzioni. Basta pochi secondi per sostituire la batteria e tornare alla massima potenza.</p>
                         
                         <div class="instructions">
                             <h4 style="color: #00fff2; margin-bottom: 10px;">Istruzioni per la sostituzione:</h4>
@@ -679,7 +714,7 @@
         <div id="page7" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">BATTERIA AD ALTA CAPACITÀ</h2>
-                <div class="full-image-container">
+                <div class="media-container">
                     <img src="7.png" alt="Batteria Capiente">
                 </div>
                 <div style="max-width: 800px; text-align: center;">
@@ -717,6 +752,9 @@
                 
                 <div class="two-column">
                     <div>
+                        <div class="media-container">
+                    <img src="8.png" alt="Filtro Lavabile">
+                </div>
                         <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">MANUTENZIONE SEMPLICE E IGIENICA</h3>
                         <p>Il sistema di filtrazione Haipa rappresenta l'innovazione nella manutenzione degli aspiratori. Progettato per essere lavato e riutilizzato più volte, garantisce prestazioni costanti nel tempo.</p>
                         
@@ -744,7 +782,7 @@
                     </div>
                     <div>
                         <div class="image-container">
-                            <img src="8.png" alt="Filtro Haipa Lavabile">
+                            <img src="https://ikki-fpv.github.io/AiRFuN/8.png" alt="Filtro Haipa Lavabile">
                         </div>
                     </div>
                 </div>
@@ -793,7 +831,7 @@
     </div>
 
     <div class="footer">
-        <p>FunAiR - Tecnologia avanzata per una pulizia perfetta | https://ikki-fpv.github.io/AiRFuN/</p>
+        <p>AiRFuN - Tecnologia avanzata per una pulizia perfetta | www.airfun-tech.it</p>
     </div>
 
     <script>
@@ -834,13 +872,34 @@
             }
         }
 
-        // Aggiungi supporto per lo scroll con mouse/touch sulle immagini
+        // Gestione del video
         document.addEventListener('DOMContentLoaded', function() {
-            const imageContainers = document.querySelectorAll('.image-container, .full-image-container, .product-image');
+            const video = document.getElementById('demoVideo');
+            const videoPlaceholder = document.getElementById('videoPlaceholder');
+            
+            if (video) {
+                // Nascondi il placeholder quando il video inizia a riprodursi
+                video.addEventListener('play', function() {
+                    videoPlaceholder.style.display = 'none';
+                });
+                
+                // Mostra il placeholder quando il video si ferma
+                video.addEventListener('pause', function() {
+                    videoPlaceholder.style.display = 'block';
+                });
+                
+                // Gestione errori video
+                video.addEventListener('error', function() {
+                    videoPlaceholder.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile</p>';
+                });
+            }
+            
+            // Supporto per lo scroll con mouse/touch sulle immagini
+            const imageContainers = document.querySelectorAll('.image-container, .media-container');
             
             imageContainers.forEach(container => {
                 container.addEventListener('wheel', function(e) {
-                    if (e.deltaY !== 0) {
+                    if (e.deltaY !== 0 && this.scrollWidth > this.clientWidth) {
                         e.preventDefault();
                         this.scrollLeft += e.deltaY;
                     }
@@ -853,12 +912,21 @@
                 });
 
                 container.addEventListener('touchmove', function(e) {
-                    if (!startX) return;
+                    if (!startX || this.scrollWidth <= this.clientWidth) return;
                     const x = e.touches[0].clientX;
                     const walk = (startX - x) * 2;
                     this.scrollLeft += walk;
                     startX = x;
                 });
+            });
+            
+            // Navigazione con tastiera
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    changePage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changePage(1);
+                }
             });
         });
     </script>
