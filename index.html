@@ -109,6 +109,89 @@
             font-weight: 300;
         }
 
+        /* Nuovo container interattivo per la copertina */
+        .media-interactive-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 50vh;
+            min-height: 400px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 168, 255, 0.2);
+            cursor: pointer; 
+            border: 1px solid rgba(0, 168, 255, 0.3);
+        }
+
+        .media-interactive-container img, .media-interactive-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s;
+        }
+
+        .media-interactive-container img {
+            z-index: 10;
+            opacity: 1; 
+        }
+
+        .media-interactive-container video {
+            z-index: 5;
+            opacity: 0; 
+        }
+        
+        .media-interactive-container::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 40%, rgba(0, 168, 255, 0.1) 50%, transparent 60%);
+            animation: shine 3s infinite linear;
+            pointer-events: none;
+            z-index: 16;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .video-placeholder-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 15; 
+            transition: opacity 0.3s;
+        }
+
+        .video-placeholder-cover i {
+            font-size: 5rem;
+            color: #00fff2;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 255, 242, 0.7);
+        }
+
+        .video-placeholder-cover p {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00a8ff;
+        }
+        /* FINE NUOVO CONTAINER COPERTINA */
+
+        /* Stili per le altre pagine */
         .media-container {
             width: 90%;
             max-width: 800px;
@@ -142,42 +225,7 @@
             object-fit: cover;
             border-radius: 10px;
         }
-
-        .media-container::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 40%, rgba(0, 168, 255, 0.1) 50%, transparent 60%);
-            animation: shine 3s infinite linear;
-            pointer-events: none;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .video-placeholder {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 3;
-        }
-
-        .video-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #00a8ff;
-        }
-
-        .video-placeholder p {
-            font-size: 1.2rem;
-            color: #00fff2;
-        }
-
+        
         .content-page {
             padding: 40px;
         }
@@ -330,6 +378,7 @@
             border-top: 1px solid rgba(0, 168, 255, 0.2);
         }
 
+        /* Pulsante e modale CONTATTI */
         .contact-btn {
             position: fixed;
             bottom: 30px;
@@ -353,8 +402,33 @@
             box-shadow: 0 0 25px rgba(199, 125, 255, 0.7);
             transform: translateY(-3px);
         }
+        
+        /* Pulsante e modale PREORDINA ORA (NUOVO) */
+        .preorder-btn {
+            position: fixed;
+            bottom: 90px; 
+            right: 30px;
+            background: linear-gradient(90deg, #ff8c00, #ff6347); 
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
 
-        .contact-modal {
+        .preorder-btn:hover {
+            background: linear-gradient(90deg, #ffb84d, #ff8c00);
+            box-shadow: 0 0 25px rgba(255, 184, 77, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .contact-modal, .preorder-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -392,12 +466,16 @@
             color: #00fff2;
         }
 
-        .contact-title {
+        .contact-title, .preorder-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8rem;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             color: #00fff2;
             text-align: center;
+        }
+        
+        .preorder-title {
+            color: #ff8c00;
         }
 
         .company-name {
@@ -425,6 +503,44 @@
             color: #00fff2;
             font-size: 1.2rem;
         }
+        
+        .preorder-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00fff2;
+            font-weight: 500;
+        }
+
+        .preorder-form input, .preorder-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 168, 255, 0.3);
+            background: rgba(0, 30, 60, 0.8);
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .preorder-form input:focus {
+            outline: none;
+            border-color: #00fff2;
+            box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
+        }
+
+        .preorder-form button {
+            background: linear-gradient(90deg, #ff8c00, #ff6347);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .preorder-form button:hover {
+            background: linear-gradient(90deg, #ffb84d, #ff8c00);
+        }
+        
+        /* Fine Preordina Ora */
 
         .full-image-section {
             display: flex;
@@ -474,7 +590,14 @@
                 font-size: 0.9rem;
             }
             
-            .media-container, .image-container {
+            .preorder-btn {
+                bottom: 70px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .media-container, .image-container, .media-interactive-container {
                 height: 50vh;
                 min-height: 300px;
             }
@@ -501,35 +624,28 @@
 </head>
 <body>
     <div class="brochure">
-        <!-- COPERTINA -->
         <div id="page1" class="page active">
             <div class="cover">
                 <h1>AiRFuN</h1>
                 <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA PRESSIONE</p>
                 
-                <!-- Immagine del prodotto -->
-                <div class="media-container">
+                <div class="media-interactive-container" id="videoContainer">
                     <img src="1.png" alt="AiRFuN - Prodotto Completo">
-                </div>
-                
-                <!-- Video dimostrativo -->
-                <div class="media-container">
-                    <video id="demoVideo" controls poster="1.png">
-                        <!-- Sostituisci con il percorso del tuo video -->
-                        <source src="AiRFuN.mp4" type="video/mp4">                        Il tuo browser non supporta il tag video.
+                    <video id="demoVideo" controls preload="none">
+                        <source src="AiRFuN.mp4" type="video/mp4">
+                        Il tuo browser non supporta il tag video.
                     </video>
-                    <div class="video-placeholder" id="videoPlaceholder">
+                    <div class="video-placeholder-cover" id="videoPlaceholderCover">
                         <i class="fas fa-play-circle"></i>
-                        <p>Video dimostrativo AiRFuN</p>
+                        <p>GUARDA IL VIDEO DIMOSTRATIVO</p>
                     </div>
                 </div>
                 
-                <p>Scopri la potenza di AiRFuN in azione</p>
+                <p>Clicca sul riquadro per avviare il video</p>
                 <div class="page-indicator">Pagina 1 di 8</div>
             </div>
         </div>
 
-        <!-- PAGINA 2: CARATTERISTICHE PRINCIPALI -->
         <div id="page2" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">PRESTAZIONI ECCEZIONALI</h2>
@@ -552,7 +668,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 3: BATTERIA E RICARICA -->
         <div id="page3" class="page">
             <div class="content-page">
                 <h2 class="section-title">AUTONOMIA E RICARICA</h2>
@@ -584,7 +699,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 4: FUNZIONALITÀ E ACCESSORI -->
         <div id="page4" class="page">
             <div class="content-page">
                 <h2 class="section-title">VERSATILITÀ E PRATICITÀ</h2>
@@ -620,7 +734,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 5: SPECIFICHE TECNICHE -->
         <div id="page5" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">SPECIFICHE TECNICHE</h2>
@@ -667,7 +780,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 6: BATTERIA SOSTITUIBILE -->
         <div id="page6" class="page">
             <div class="content-page">
                 <h2 class="section-title">BATTERIA SOSTITUIBILE</h2>
@@ -708,7 +820,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 7: BATTERIA CAPIENTE -->
         <div id="page7" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">BATTERIA AD ALTA CAPACITÀ</h2>
@@ -743,7 +854,6 @@
             </div>
         </div>
 
-        <!-- PAGINA 8: HAIPA LAVABILE -->
         <div id="page8" class="page">
             <div class="content-page">
                 <h2 class="section-title">FILTRO HAIPA LAVABILE</h2>
@@ -789,12 +899,36 @@
         </div>
     </div>
 
-    <!-- PULSANTE CONTATTACI -->
+    <button class="preorder-btn" onclick="openPreorderModal()">
+        <i class="fas fa-cart-plus"></i> PREORDINA ORA
+    </button>
+
     <button class="contact-btn" onclick="openContactModal()">
         <i class="fas fa-comment-dots"></i> CONTATTACI
     </button>
 
-    <!-- MODALE CONTATTI -->
+    <div id="preorderModal" class="preorder-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePreorderModal()">&times;</span>
+            <h2 class="preorder-title">PREORDINA AiRFuN</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Lasciaci i tuoi dati e sarai ricontattato per completare l'ordine!</p>
+            
+            <form class="preorder-form" onsubmit="handlePreorder(event)">
+                <label for="name">Nome e Cognome</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="phone">Telefono</label>
+                <input type="tel" id="phone" name="phone" required>
+                
+                <button type="submit">INVIA RICHIESTA DI PREORDINE</button>
+            </form>
+        </div>
+    </div>
+
+
     <div id="contactModal" class="contact-modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeContactModal()">&times;</span>
@@ -822,14 +956,13 @@
         </div>
     </div>
 
-    <!-- CONTROLLI PAGINAZIONE -->
     <div class="pagination">
         <button class="page-btn" onclick="changePage(-1)"><i class="fas fa-arrow-left"></i> PRECEDENTE</button>
         <button class="page-btn" onclick="changePage(1)">SUCCESSIVA <i class="fas fa-arrow-right"></i></button>
     </div>
 
     <div class="footer">
-        <p>AiRFuN - Tecnologia avanzata per una pulizia perfetta | www.airfun-tech.it</p>
+        <p>AiRFuN - Tecnologia avanzata per una pulizia perfetta | <a href="https://ikki-fpv.github.io/AiRFuN/" target="_blank" style="color: #00fff2; text-decoration: none;">https://ikki-fpv.github.io/AiRFuN/</a></p>
     </div>
 
     <script>
@@ -854,6 +987,7 @@
             window.scrollTo(0, 0);
         }
 
+        /* Gestione Modali */
         function openContactModal() {
             document.getElementById('contactModal').style.display = 'flex';
         }
@@ -861,39 +995,84 @@
         function closeContactModal() {
             document.getElementById('contactModal').style.display = 'none';
         }
+        
+        function openPreorderModal() {
+            document.getElementById('preorderModal').style.display = 'flex';
+        }
 
-        // Chiudi la modale se si clicca fuori dal contenuto
+        function closePreorderModal() {
+            document.getElementById('preorderModal').style.display = 'none';
+        }
+        
+        function handlePreorder(event) {
+            event.preventDefault(); // Impedisce l'invio standard del form
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            // LOGICA DI GESTIONE DEL PREORDINE (SIMULAZIONE)
+            // IN UN AMBIENTE REALE, I dati andrebbero inviati ad un server.
+            
+            alert(`Richiesta di preordine per AiRFuN inviata con successo!\nNome: ${name}\nEmail: ${email}\nTelefono: ${phone}\nSarai ricontattato al più presto da IKKI SOLUTIONS.`);
+            
+            // Resetta e chiudi la modale
+            document.querySelector('.preorder-form').reset();
+            closePreorderModal();
+        }
+        
+        // Chiudi le modali se si clicca fuori dal contenuto
         window.onclick = function(event) {
-            const modal = document.getElementById('contactModal');
-            if (event.target === modal) {
+            const contactModal = document.getElementById('contactModal');
+            const preorderModal = document.getElementById('preorderModal');
+
+            if (event.target === contactModal) {
                 closeContactModal();
+            }
+            if (event.target === preorderModal) {
+                closePreorderModal();
             }
         }
 
-        // Gestione del video
+        // Gestione del video (LOGICA MODIFICATA per interazione immagine/video)
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('demoVideo');
-            const videoPlaceholder = document.getElementById('videoPlaceholder');
-            
-            if (video) {
-                // Nascondi il placeholder quando il video inizia a riprodursi
-                video.addEventListener('play', function() {
-                    videoPlaceholder.style.display = 'none';
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlaceholderCover = document.getElementById('videoPlaceholderCover');
+            const image = videoContainer.querySelector('img');
+
+            if (videoContainer && video) {
+                videoContainer.addEventListener('click', function() {
+                    if (video.paused) {
+                        video.style.opacity = '1';
+                        image.style.opacity = '0';
+                        videoPlaceholderCover.style.opacity = '0';
+                        videoPlaceholderCover.style.display = 'none';
+                        video.play();
+                    }
                 });
+
+                function resetCover() {
+                    video.pause();
+                    video.currentTime = 0;
+                    video.style.opacity = '0';
+                    image.style.opacity = '1';
+                    videoPlaceholderCover.style.opacity = '1';
+                    videoPlaceholderCover.style.display = 'flex';
+                }
                 
-                // Mostra il placeholder quando il video si ferma
-                video.addEventListener('pause', function() {
-                    videoPlaceholder.style.display = 'block';
-                });
+                // Quando il video finisce, ripristina l'immagine
+                video.addEventListener('ended', resetCover);
                 
                 // Gestione errori video
                 video.addEventListener('error', function() {
-                    videoPlaceholder.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile</p>';
+                    videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile</p>';
+                    resetCover();
                 });
             }
             
             // Supporto per lo scroll con mouse/touch sulle immagini
-            const imageContainers = document.querySelectorAll('.image-container, .media-container');
+            const imageContainers = document.querySelectorAll('.image-container, .media-interactive-container');
             
             imageContainers.forEach(container => {
                 container.addEventListener('wheel', function(e) {
@@ -928,83 +1107,5 @@
             });
         });
     </script>
-    <script>
-// === VIDEO: immagine cliccabile ===
-document.addEventListener('DOMContentLoaded', () => {
-    const videoContainer = document.getElementById('videoContainer');
-    const video = document.getElementById('demoVideo');
-    const image = document.getElementById('videoImage');
-
-    if (videoContainer && video && image) {
-        image.style.display = 'block';
-        video.style.display = 'none';
-        video.controls = true;
-
-        videoContainer.addEventListener('click', () => {
-            if (video.paused) {
-                image.style.display = 'none';
-                video.style.display = 'block';
-                video.play();
-            }
-        });
-
-        // Se il video termina, torna all'immagine
-        video.addEventListener('ended', () => {
-            video.pause();
-            video.currentTime = 0;
-            video.style.display = 'none';
-            image.style.display = 'block';
-        });
-    }
-
-    // === MODALE PREORDINE ===
-    const preorderModal = document.getElementById('preorderModal');
-    const preorderForm = document.getElementById('preorderForm');
-
-    window.openPreorder = function() {
-        preorderModal.style.display = 'flex';
-    }
-
-    window.closePreorder = function() {
-        preorderModal.style.display = 'none';
-    }
-
-    // Chiudi cliccando fuori
-    window.addEventListener('click', function(e) {
-        if (e.target === preorderModal) closePreorder();
-    });
-
-    // === PAYPAL REDIRECT ===
-    if (preorderForm) {
-        preorderForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const banner = document.getElementById('paypalBanner');
-            banner.style.display = 'block';
-
-            setTimeout(() => {
-                const name = encodeURIComponent(document.getElementById('name').value);
-                const email = encodeURIComponent(document.getElementById('email').value);
-                const phone = encodeURIComponent(document.getElementById('phone').value);
-                const address = encodeURIComponent(document.getElementById('address').value);
-                const notes = encodeURIComponent(document.getElementById('notes').value);
-
-                const paypalUrl =
-                    `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=ikki007@libero.it&item_name=Preordine+AiRFuN&amount=49.90&currency_code=EUR&return=https://ikki-fpv.github.io/AiRFuN/&cancel_return=https://ikki-fpv.github.io/AiRFuN/&custom=Nome:${name}%20Email:${email}%20Telefono:${phone}%20Indirizzo:${address}%20Note:${notes}`;
-
-                window.open(paypalUrl, '_blank');
-                banner.style.display = 'none';
-                closePreorder();
-            }, 2500);
-        });
-    }
-
-    // === NAVIGAZIONE CON TASTIERA (mantiene quella originale) ===
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowLeft') changePage(-1);
-        if (e.key === 'ArrowRight') changePage(1);
-    });
-});
-</script>
-
 </body>
 </html>
