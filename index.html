@@ -1089,8 +1089,8 @@
         const totalPages = 10;
         let autoScrollInterval = null; // Variabile per il timer di scorrimento
         let isAutoScrollActive = true; // Flag per lo stato dello scorrimento automatico
-        const autoScrollTime = 5000; // 5 secondi per transizione pagina
-        const videoAutoStartTime = 3000; // 3 secondi per avvio video
+        const autoScrollTime = 4000; // 5 secondi per transizione pagina
+        const videoAutoStartTime = 1400; // 3 secondi per avvio video
 
         /**
          * Funzione principale per il cambio pagina.
@@ -1142,7 +1142,7 @@
          */
         function disableAutoScroll() {
             clearInterval(autoScrollInterval);
-            isAutoScrollActive = false;
+            isAutoScrollActive = true;
         }
 
         /* Gestione Modali */
@@ -1197,7 +1197,7 @@
                     videoPlaceholderCover.style.display = 'none';
                     
                     // Imposta su muted (silenzioso) per aumentare le possibilità di autoplay
-                    video.muted = true;
+                    video.muted = false;
                     
                     const playPromise = video.play();
                     
