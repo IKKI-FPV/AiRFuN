@@ -1084,13 +1084,13 @@
         <p>AiRK - Tecnologia avanzata per una pulizia perfetta | <a href="https://ikki-fpv.github.io/AiRFuN/" target="_blank" style="color: #00fff2; text-decoration: none;">https://ikki-fpv.github.io/AiRFuN/</a></p>
     </div>
 
-    <script>
+<script>
         let currentPage = 1;
         const totalPages = 10;
         let autoScrollInterval = null; // Variabile per il timer di scorrimento
         let isAutoScrollActive = false; // Flag per lo stato dello scorrimento automatico
         const autoScrollTime = 5000; // 5 secondi per transizione pagina
-        const videoAutoStartTime = 100; // 3 secondi per avvio video
+        const videoAutoStartTime = 3000; // Tempo per l'avvio del carosello se il video non parte (3 secondi)
 
         /**
          * Funzione principale per il cambio pagina.
@@ -1110,6 +1110,9 @@
             // Mostra nuova pagina
             document.getElementById('page' + currentPage).classList.add('active');
             
+            // Aggiorna indicatore di pagina (se vuoi mantenerlo)
+            document.querySelector('.page-indicator').textContent = 'Pagina ' + currentPage + ' di ' + totalPages;
+
             // Scrolla in alto
             window.scrollTo(0, 0);
         }
@@ -1128,13 +1131,14 @@
          * Avvia lo scorrimento automatico delle pagine.
          */
         function startAutoScroll() {
-            if (isAutoScrollActive) {
-                // Pulisce qualsiasi intervallo esistente per evitare duplicati
-                clearInterval(autoScrollInterval); 
-                autoScrollInterval = setInterval(() => {
-                    changePage(1); // Vai alla pagina successiva
-                }, autoScrollTime);
-            }
+             // Imposta il flag su true la prima volta
+            if (!isAutoScrollActive) isAutoScrollActive = true; 
+            
+            // Pulisce qualsiasi intervallo esistente per evitare duplicati
+            clearInterval(autoScrollInterval); 
+            autoScrollInterval = setInterval(() => {
+                changePage(1); // Vai alla pagina successiva
+            }, autoScrollTime);
         }
         
         /**
@@ -1142,7 +1146,7 @@
          */
         function disableAutoScroll() {
             clearInterval(autoScrollInterval);
-            isAutoScrollActive = true;
+            isAutoScrollActive = false; // Imposta su false dopo l'interazione manuale
         }
 
         /* Gestione Modali */
@@ -1187,67 +1191,81 @@
             const image = videoContainer.querySelector('img');
             let videoInteractionTimeout = null; 
 
+            // Funzione per ripristinare lo stato iniziale (immagine)
+            function resetCover() {
+                video.pause();
+                video.currentTime = 0;
+                video.style.opacity = '0';
+                image.style.opacity = '1';
+                videoPlaceholderCover.style.opacity = '1';
+                videoPlaceholderCover.style.display = 'flex';
+                video.muted = false; // Ripristina l'audio per l'interazione manuale successiva
+            }
+            
+            // Funzione per riprodurre il video
+            function playVideo() {
+                video.style.opacity = '1';
+                image.style.opacity = '0';
+                videoPlaceholderCover.style.opacity = '0';
+                videoPlaceholderCover.style.display = 'none';
+                
+                // Imposta su muted (silenzioso) per aumentare le possibilità di autoplay
+                video.muted = false;
+                
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Autoplay bloccato dal browser. Avvia lo scorrimento dalla Pagina 1.
+                        console.error("Autoplay bloccato dal browser. Avvio scorrimento automatico dopo il tempo d'attesa.", error);
+                        resetCover();
+                        // Non chiamiamo changePage(1) qui per non saltare la prima pagina!
+                        isAutoScrollActive = true; 
+                        startAutoScroll();
+                    });
+                }
+            }
+
             if (videoContainer && video) {
                 
-                // Funzione per riprodurre il video
-                function playVideo() {
-                    video.style.opacity = '1';
-                    image.style.opacity = '0';
-                    videoPlaceholderCover.style.opacity = '0';
-                    videoPlaceholderCover.style.display = 'none';
+                // ***LOGICA DI INIZIO MODIFICATA***:
+                // Se l'autoplay del video NON parte, avvia lo scorrimento automatico dopo il ritardo.
+                // Usiamo un ritardo maggiore (3s) per dare il tempo di visualizzare la Pagina 1.
+                videoInteractionTimeout = setTimeout(() => {
+                    // Tenta di avviare il video (se riesce bene, altrimenti il catch lo gestirà)
+                    playVideo();
                     
-                    // Imposta su muted (silenzioso) per aumentare le possibilità di autoplay
-                    video.muted = false;
-                    
-                    const playPromise = video.play();
-                    
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            // Autoplay bloccato, ripristina la copertina e avvia l'auto-scroll subito.
-                            console.error("Autoplay bloccato dal browser. Avvio scorrimento automatico.", error);
-                            resetCover();
-                            if (currentPage === 1) {
-                                changePage(1); // Vai alla pagina 2
-                            }
-                            startAutoScroll();
-                        });
+                    // Se siamo ancora sulla Pagina 1 e l'auto-scroll non è partito, avvialo.
+                    if (currentPage === 1 && !isAutoScrollActive) {
+                       isAutoScrollActive = true;
+                       startAutoScroll();
                     }
-                }
-                
-                // Funzione per ripristinare lo stato iniziale (immagine)
-                function resetCover() {
-                    video.pause();
-                    video.currentTime = 0;
-                    video.style.opacity = '0';
-                    image.style.opacity = '1';
-                    videoPlaceholderCover.style.opacity = '1';
-                    videoPlaceholderCover.style.display = 'flex';
-                    video.muted = false; // Ripristina l'audio per l'interazione manuale successiva
-                }
-
-                // Avvia il video automaticamente dopo 3 secondi
-                videoInteractionTimeout = setTimeout(playVideo, videoAutoStartTime);
+                }, videoAutoStartTime);
 
                 // Interazione manuale del riquadro video
                 videoContainer.addEventListener('click', function() {
-                    clearTimeout(videoInteractionTimeout); // Annulla l'autoplay programmato se l'utente interagisce
+                    clearTimeout(videoInteractionTimeout); // Annulla l'autoplay programmato
                     if (video.paused) {
                         video.muted = false; // Riattiva l'audio se l'utente clicca
                         playVideo();
                     }
+                    disableAutoScroll(); // Interazione utente blocca l'auto-scroll
                 });
 
                 // Quando il video finisce, passa alla pagina 2 e avvia lo scorrimento automatico
                 video.addEventListener('ended', function() {
                     resetCover(); // Ripristina l'immagine di copertina
                     
-                    // Vai alla pagina 2 (dopo la fine del video)
+                    // Vai alla pagina 2
                     if (currentPage === 1) {
                         changePage(1); 
                     }
                     
-                    // Avvia lo scorrimento automatico delle pagine
-                    startAutoScroll();
+                    // Avvia lo scorrimento automatico delle pagine (se non è stato disabilitato manualmente prima)
+                    if (!isAutoScrollActive) {
+                       isAutoScrollActive = true;
+                       startAutoScroll();
+                    }
                 });
                 
                 // Gestione errori video
@@ -1255,13 +1273,16 @@
                     clearTimeout(videoInteractionTimeout);
                     videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile. Avvio scorrimento automatico.</p>';
                     resetCover();
-                    if (currentPage === 1) {
-                        changePage(1); 
+                    
+                    // Avvia lo scorrimento dalla Pagina 1 dopo il tempo d'attesa se non è stato avviato
+                    if (currentPage === 1 && !isAutoScrollActive) {
+                       isAutoScrollActive = true;
+                       startAutoScroll();
                     }
-                    startAutoScroll();
                 });
             } else {
-                 // Se il video non c'è, avvia lo scorrimento automatico dopo 3 secondi
+                 // Se il video non c'è, avvia lo scorrimento automatico dopo il ritardo iniziale
+                 isAutoScrollActive = true;
                  setTimeout(startAutoScroll, videoAutoStartTime);
             }
             
