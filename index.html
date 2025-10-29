@@ -395,7 +395,7 @@
         /* Pulsante e modale CONTATTI */
         .contact-btn {
             position: fixed;
-            bottom: 30px;
+            bottom: 90px;
             right: 30px;
             background: linear-gradient(90deg, #9d4edd, #7b2cbf);
             color: white;
@@ -420,7 +420,7 @@
         /* Pulsante e modale PREORDINA ORA (NUOVO) */
         .preorder-btn {
             position: fixed;
-            bottom: 90px; 
+            bottom: 30px; 
             right: 30px;
             background: linear-gradient(90deg, #ff8c00, #ff6347); 
             color: white;
@@ -971,13 +971,14 @@
         </div>
     </div>
 
+    <button class="contact-btn" onclick="openContactModal()">
+        <i class="fas fa-comment-dots"></i> CONTATTACI
+    </button>
+
     <button class="preorder-btn" onclick="openPreorderModal()">
         <i class="fas fa-cart-plus"></i> PREORDINA ORA a 59.90 + "seconda batteria in omaggio"
     </button>
 
-    <button class="contact-btn" onclick="openContactModal()">
-        <i class="fas fa-comment-dots"></i> CONTATTACI
-    </button>
 
     <div id="preorderModal" class="preorder-modal">
         <div class="modal-content">
