@@ -854,7 +854,7 @@
             <div class="content-page">
                 <h2 class="section-title">FILTRO HAIPA LAVABILE</h2>
                 
-                <div class="two-column">
+                <div class="full-image-section">
                     <div>
                         <div class="media-container">
                     <img src="8.png" alt="Filtro Lavabile">
@@ -884,11 +884,7 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="image-container">
-                            <img src="1.png" alt="Filtro Haipa Lavabile">
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="page-indicator">Pagina 8 di 10</div>
             </div>
@@ -933,7 +929,7 @@
                 <div class="two-column">
                     <div>
                         <div class="image-container">
-                            <img src="10.webp alt="Funzione Aspiratore">
+                            <img src="10.webp" alt="Funzione Aspiratore">
                         </div>
                     </div>
                     <div>
@@ -974,18 +970,21 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closePreorderModal()">&times;</span>
             <h2 class="preorder-title">PREORDINA AiRFuN</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Lasciaci i tuoi dati e sarai ricontattato per completare l'ordine!</p>
             
-            <form class="preorder-form" onsubmit="handlePreorder(event)">
+            <form class="preorder-form" action="https://formspree.io/f/mvgvajgv" method="POST">
+                <p style="text-align: center; margin-bottom: 20px;">Lasciaci i tuoi dati e sarai ricontattato per completare l'ordine!</p>
+                
                 <label for="name">Nome e Cognome</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="Nome" required> 
                 
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="Email" required>
                 
                 <label for="phone">Telefono</label>
-                <input type="tel" id="phone" name="phone" required>
+                 <input type="tel" id="phone" name="Telefono" required>
                 
+                <input type="hidden" name="_subject" value="Nuovo Preordine AiRFuN">
+
                 <button type="submit">INVIA RICHIESTA DI PREORDINE</button>
             </form>
         </div>
@@ -1067,22 +1066,8 @@
             document.getElementById('preorderModal').style.display = 'none';
         }
         
-        function handlePreorder(event) {
-            event.preventDefault(); // Impedisce l'invio standard del form
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            
-            // LOGICA DI GESTIONE DEL PREORDINE (SIMULAZIONE)
-            // IN UN AMBIENTE REALE, I dati andrebbero inviati ad un server.
-            
-            alert(`Richiesta di preordine per AiRFuN inviata con successo!\nNome: ${name}\nEmail: ${email}\nTelefono: ${phone}\nSarai ricontattato al più presto da IKKI SOLUTIONS.`);
-            
-            // Resetta e chiudi la modale
-            document.querySelector('.preorder-form').reset();
-            closePreorderModal();
-        }
+        /* RIMOSSA E SOSTITUITA LA FUNZIONE handlePreorder(event)
+           Ora Formspree gestirà l'invio del modulo. */
         
         // Chiudi le modali se si clicca fuori dal contenuto
         window.onclick = function(event) {
@@ -1171,4 +1156,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
