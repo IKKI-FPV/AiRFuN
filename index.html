@@ -314,6 +314,30 @@
         }
 
         .page-btn:hover {
+}
+
+.preorder-btn {
+    background: linear-gradient(90deg, #00a8ff, #00fff2);
+    color: #0a0f1f;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(0, 255, 242, 0.4);
+    transition: all 0.3s;
+    display: block;
+    margin: 20px auto;
+    max-width: 220px;
+}
+.preorder-btn:hover {
+    background: linear-gradient(90deg, #00fff2, #00a8ff);
+    box-shadow: 0 0 25px rgba(0, 255, 242, 0.6);
+    transform: translateY(-3px);
+}
+
             background: linear-gradient(90deg, #00fff2, #00a8ff);
             box-shadow: 0 0 20px rgba(0, 255, 242, 0.5);
             transform: translateY(-2px);
@@ -506,30 +530,22 @@
             <div class="cover">
                 <h1>AiRFuN</h1>
                 <p class="subtitle">TECNOLOGIA AVANZATA PER PULIZIE AD ALTA PRESSIONE</p>
-                
-                <!-- Immagine del prodotto -->
-                <div class="media-container">
-                    <img src="1.png" alt="AiRFuN - Prodotto Completo">
-                </div>
-                
-                <!-- Video dimostrativo -->
-                <div class="media-container">
-                    <video id="demoVideo" controls poster="1.png">
-                        <!-- Sostituisci con il percorso del tuo video -->
-                        <source src="AiRFuN.mp4" type="video/mp4">                        Il tuo browser non supporta il tag video.
+
+                <div class="media-container" id="videoContainer">
+                    <img src="1.png" alt="AiRFuN - Prodotto Completo" id="videoImage">
+                    <video id="demoVideo" preload="none" poster="1.png">
+                        <source src="AiRFuN.mp4" type="video/mp4">
+                        Il tuo browser non supporta il video.
                     </video>
-                    <div class="video-placeholder" id="videoPlaceholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Video dimostrativo AiRFuN</p>
-                    </div>
                 </div>
-                
-                <p>Scopri la potenza di AiRFuN in azione</p>
+
+                <p>Scopri la potenza di <a href="https://ikki-fpv.github.io/AiRFuN/" target="_blank" style="color:#00fff2;text-decoration:none;">AiRFuN</a> in azione</p>
                 <div class="page-indicator">Pagina 1 di 8</div>
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
-        <!-- PAGINA 2: CARATTERISTICHE PRINCIPALI -->
+<!-- PAGINA 2<!-- PAGINA 2: CARATTERISTICHE PRINCIPALI -->
         <div id="page2" class="page">
             <div class="full-image-section">
                 <h2 class="section-title">PRESTAZIONI ECCEZIONALI</h2>
@@ -548,7 +564,8 @@
                         <li>Prestazioni durature nel tempo</li>
                     </ul>
                 </div>
-                <div class="page-indicator">Pagina 2 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -580,7 +597,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-indicator">Pagina 3 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -616,7 +634,8 @@
                     <h3 style="color: #00a8ff; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">HAIPA LAVABILE PIÙ VOLTE</h3>
                     <p>Il filtro Haipa può essere lavato direttamente con acqua più volte per un uso pratico e igienico, garantendo prestazioni costanti nel tempo.</p>
                 </div>
-                <div class="page-indicator">Pagina 4 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -663,7 +682,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-indicator">Pagina 5 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -704,7 +724,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-indicator">Pagina 6 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -739,7 +760,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-indicator">Pagina 7 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
 
@@ -784,7 +806,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-indicator">Pagina 8 di 8</div>
+                \1
+                <button class="page-btn preorder-btn" onclick="openPreorder()">PREORDINA ORA</button>
             </div>
         </div>
     </div>
@@ -828,8 +851,44 @@
         <button class="page-btn" onclick="changePage(1)">SUCCESSIVA <i class="fas fa-arrow-right"></i></button>
     </div>
 
+    <!-- MODALE PREORDINE -->
+    <div id="preorderModal" class="contact-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePreorder()">&times;</span>
+            <h2 class="contact-title">PREORDINA AiRFuN</h2>
+            <div class="company-name">Prezzo lancio: <span style="color:#00fff2;">49,90 €</span></div>
+
+            <form id="preorderForm">
+                <input type="text" id="name" placeholder="Nome e Cognome" required style="width:100%;margin-bottom:10px;">
+                <input type="email" id="email" placeholder="Email" required style="width:100%;margin-bottom:10px;">
+                <input type="tel" id="phone" placeholder="Telefono" required style="width:100%;margin-bottom:10px;">
+                <textarea id="address" placeholder="Indirizzo di spedizione" required style="width:100%;height:80px;margin-bottom:10px;"></textarea>
+                <textarea id="notes" placeholder="Note opzionali (facoltativo)" style="width:100%;height:60px;margin-bottom:10px;"></textarea>
+                <button type="submit" class="page-btn">Conferma Preordine</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Banner di conferma stile PayPal -->
+    <div id="paypalBanner" style="
+        display:none;
+        position:fixed;
+        top:20px;
+        left:50%;
+        transform:translateX(-50%);
+        background:#28c76f;
+        color:#fff;
+        padding:12px 25px;
+        border-radius:8px;
+        font-family:'Exo 2',sans-serif;
+        box-shadow:0 4px 10px rgba(0,0,0,0.3);
+        z-index:5000;
+    ">
+        ✅ Grazie per il tuo preordine! Verrai reindirizzato su PayPal...
+    </div>
+
     <div class="footer">
-        <p>AiRFuN - Tecnologia avanzata per una pulizia perfetta | www.airfun-tech.it</p>
+        <p>AiRFuN - Tecnologia avanzata per una pulizia perfetta | https://ikki-fpv.github.io/AiRFuN/</p>
     </div>
 
     <script>
@@ -918,7 +977,50 @@
                 });
             });
             
-            // Navigazione con tastiera
+            // --- Gestione video cliccabile ---
+    const video = document.getElementById('demoVideo');
+    const image = document.getElementById('videoImage');
+    const container = document.getElementById('videoContainer');
+    if (video && image && container) {
+        image.style.display = 'block';
+        video.style.display = 'none';
+        container.addEventListener('click', () => {
+            image.style.display = 'none';
+            video.style.display = 'block';
+            video.play();
+        });
+    }
+
+    // --- Modale Preordine ---
+    function openPreorder() {
+        document.getElementById('preorderModal').style.display = 'flex';
+    }
+    function closePreorder() {
+        document.getElementById('preorderModal').style.display = 'none';
+    }
+
+    // --- Gestione invio PayPal ---
+    const preorderForm = document.getElementById('preorderForm');
+    if (preorderForm) {
+        preorderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const banner = document.getElementById('paypalBanner');
+            banner.style.display = 'block';
+            setTimeout(() => {
+                const name = encodeURIComponent(document.getElementById('name').value);
+                const email = encodeURIComponent(document.getElementById('email').value);
+                const phone = encodeURIComponent(document.getElementById('phone').value);
+                const address = encodeURIComponent(document.getElementById('address').value);
+                const notes = encodeURIComponent(document.getElementById('notes').value);
+                const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=ikki007@libero.it&item_name=Preordine+AiRFuN&amount=49.90&currency_code=EUR&return=https://ikki-fpv.github.io/AiRFuN/&cancel_return=https://ikki-fpv.github.io/AiRFuN/&custom=Nome:${name}%20Email:${email}%20Telefono:${phone}%20Indirizzo:${address}%20Note:${notes}`;
+                window.open(paypalUrl, '_blank');
+                banner.style.display = 'none';
+                closePreorder();
+            }, 2500);
+        });
+    }
+
+    // Navigazione con tastiera
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'ArrowLeft') {
                     changePage(-1);
