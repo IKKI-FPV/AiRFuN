@@ -251,6 +251,7 @@
             align-items: center;
         }
 
+        /* Modifiche per lo zoom */
         .image-container {
             width: 100%;
             height: 60vh;
@@ -265,15 +266,34 @@
             border: 1px solid rgba(0, 168, 255, 0.3);
             box-shadow: 0 0 20px rgba(0, 168, 255, 0.2);
             position: relative;
-            overflow: auto;
+            overflow: hidden; /* Nasconde l'immagine zoomata all'esterno */
+            cursor: zoom-in; /* Indica all'utente l'interazione */
         }
 
         .image-container img {
-            width: auto;
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%; /* L'immagine di base occupa tutto lo spazio */
+            height: 100%;
             object-fit: contain;
+            transition: opacity 0.3s;
         }
+        
+        .zoom-img {
+            position: absolute;
+            width: 300%; /* Fattore di zoom (3x) */
+            height: 300%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            pointer-events: none; /* Ignora il mouse per non interferire con il contenitore */
+            transform-origin: 0 0;
+            transition: opacity 0.3s;
+            object-fit: cover; /* Usa cover per riempire l'area 3x3 */
+        }
+        
+        .image-container:hover .zoom-img {
+            opacity: 1; /* Mostra l'immagine ingrandita al passaggio del mouse */
+        }
+        /* Fine modifiche zoom */
 
         .section-title {
             color: #00a8ff;
@@ -303,6 +323,13 @@
             line-height: 1;
             text-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
         }
+        
+        .big-number h1, .big-number h2 {
+            /* Per assicurare che il testo all'interno di big-number erediti lo stile */
+            font-size: inherit; 
+            margin: 0;
+        }
+
 
         .feature-list {
             list-style-type: none;
@@ -580,9 +607,9 @@
             margin-bottom: 10px;
         }
         
-            .cover h3 {
-                font-size: 1.5rem;
-            }
+        .cover h3 {
+            font-size: 1.5rem;
+        }
             
 
         @media (max-width: 768px) {
@@ -825,7 +852,7 @@
                         <div class="instructions">
                             <h4 style="color: #00fff2; margin-bottom: 10px;">Istruzioni per la sostituzione:</h4>
                             <ol>
-                                <li>Premi il pulsante di sblocco</li>
+                                <li>Premi il pulsante di sblocca</li>
                                 <li>Rimuovi la batteria esaurita</li>
                                 <li>Inserisci la batteria carica</li>
                                 <li>Sentirai un click che conferma il blocco</li>
@@ -1049,8 +1076,8 @@
     </div>
 
     <div class="pagination">
-        <button class="page-btn" onclick="changePage(-1)"><i class="fas fa-arrow-left"></i> PRECEDENTE</button>
-        <button class="page-btn" onclick="changePage(1)">SUCCESSIVA <i class="fas fa-arrow-right"></i></button>
+        <button class="page-btn"><i class="fas fa-arrow-left"></i> PRECEDENTE</button>
+        <button class="page-btn">SUCCESSIVA <i class="fas fa-arrow-right"></i></button>
     </div>
 
     <div class="footer">
@@ -1060,7 +1087,15 @@
     <script>
         let currentPage = 1;
         const totalPages = 10;
+        let autoScrollInterval = null; // Variabile per il timer di scorrimento
+        let isAutoScrollActive = true; // Flag per lo stato dello scorrimento automatico
+        const autoScrollTime = 5000; // 5 secondi per transizione pagina
+        const videoAutoStartTime = 3000; // 3 secondi per avvio video
 
+        /**
+         * Funzione principale per il cambio pagina.
+         * @param {number} direction - La direzione del cambio pagina (+1 per Successiva, -1 per Precedente).
+         */
         function changePage(direction) {
             // Nascondi pagina corrente
             document.getElementById('page' + currentPage).classList.remove('active');
@@ -1079,25 +1114,57 @@
             window.scrollTo(0, 0);
         }
 
+        /**
+         * Funzione wrapper per il cambio pagina in seguito a interazione manuale dell'utente.
+         * Disattiva lo scorrimento automatico.
+         * @param {number} direction - La direzione del cambio pagina.
+         */
+        function userChangePage(direction) {
+            disableAutoScroll();
+            changePage(direction);
+        }
+        
+        /**
+         * Avvia lo scorrimento automatico delle pagine.
+         */
+        function startAutoScroll() {
+            if (isAutoScrollActive) {
+                // Pulisce qualsiasi intervallo esistente per evitare duplicati
+                clearInterval(autoScrollInterval); 
+                autoScrollInterval = setInterval(() => {
+                    changePage(1); // Vai alla pagina successiva
+                }, autoScrollTime);
+            }
+        }
+        
+        /**
+         * Disattiva lo scorrimento automatico in modo permanente dopo la prima interazione utente.
+         */
+        function disableAutoScroll() {
+            clearInterval(autoScrollInterval);
+            isAutoScrollActive = false;
+        }
+
         /* Gestione Modali */
         function openContactModal() {
             document.getElementById('contactModal').style.display = 'flex';
+            clearInterval(autoScrollInterval); // Metti in pausa lo scorrimento
         }
 
         function closeContactModal() {
             document.getElementById('contactModal').style.display = 'none';
+            if (isAutoScrollActive) startAutoScroll(); // Riprendi se non è stato disattivato manualmente
         }
         
         function openPreorderModal() {
             document.getElementById('preorderModal').style.display = 'flex';
+            clearInterval(autoScrollInterval); // Metti in pausa lo scorrimento
         }
 
         function closePreorderModal() {
             document.getElementById('preorderModal').style.display = 'none';
+            if (isAutoScrollActive) startAutoScroll(); // Riprendi se non è stato disattivato manualmente
         }
-        
-        /* RIMOSSA E SOSTITUITA LA FUNZIONE handlePreorder(event)
-           Ora Formspree gestirà l'invio del modulo. */
         
         // Chiudi le modali se si clicca fuori dal contenuto
         window.onclick = function(event) {
@@ -1112,24 +1179,42 @@
             }
         }
 
-        // Gestione del video (LOGICA MODIFICATA per interazione immagine/video)
+        // Gestione del video e Autoplay/Autoscroll
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('demoVideo');
             const videoContainer = document.getElementById('videoContainer');
             const videoPlaceholderCover = document.getElementById('videoPlaceholderCover');
             const image = videoContainer.querySelector('img');
+            let videoInteractionTimeout = null; 
 
             if (videoContainer && video) {
-                videoContainer.addEventListener('click', function() {
-                    if (video.paused) {
-                        video.style.opacity = '1';
-                        image.style.opacity = '0';
-                        videoPlaceholderCover.style.opacity = '0';
-                        videoPlaceholderCover.style.display = 'none';
-                        video.play();
+                
+                // Funzione per riprodurre il video
+                function playVideo() {
+                    video.style.opacity = '1';
+                    image.style.opacity = '0';
+                    videoPlaceholderCover.style.opacity = '0';
+                    videoPlaceholderCover.style.display = 'none';
+                    
+                    // Imposta su muted (silenzioso) per aumentare le possibilità di autoplay
+                    video.muted = true;
+                    
+                    const playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            // Autoplay bloccato, ripristina la copertina e avvia l'auto-scroll subito.
+                            console.error("Autoplay bloccato dal browser. Avvio scorrimento automatico.", error);
+                            resetCover();
+                            if (currentPage === 1) {
+                                changePage(1); // Vai alla pagina 2
+                            }
+                            startAutoScroll();
+                        });
                     }
-                });
-
+                }
+                
+                // Funzione per ripristinare lo stato iniziale (immagine)
                 function resetCover() {
                     video.pause();
                     video.currentTime = 0;
@@ -1137,50 +1222,113 @@
                     image.style.opacity = '1';
                     videoPlaceholderCover.style.opacity = '1';
                     videoPlaceholderCover.style.display = 'flex';
+                    video.muted = false; // Ripristina l'audio per l'interazione manuale successiva
                 }
-                
-                // Quando il video finisce, ripristina l'immagine
-                video.addEventListener('ended', resetCover);
-                
-                // Gestione errori video
-                video.addEventListener('error', function() {
-                    videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile</p>';
-                    resetCover();
-                });
-            }
-            
-            // Supporto per lo scroll con mouse/touch sulle immagini
-            const imageContainers = document.querySelectorAll('.image-container, .media-interactive-container');
-            
-            imageContainers.forEach(container => {
-                container.addEventListener('wheel', function(e) {
-                    if (e.deltaY !== 0 && this.scrollWidth > this.clientWidth) {
-                        e.preventDefault();
-                        this.scrollLeft += e.deltaY;
+
+                // Avvia il video automaticamente dopo 3 secondi
+                videoInteractionTimeout = setTimeout(playVideo, videoAutoStartTime);
+
+                // Interazione manuale del riquadro video
+                videoContainer.addEventListener('click', function() {
+                    clearTimeout(videoInteractionTimeout); // Annulla l'autoplay programmato se l'utente interagisce
+                    if (video.paused) {
+                        video.muted = false; // Riattiva l'audio se l'utente clicca
+                        playVideo();
                     }
                 });
 
-                // Supporto per touch devices
-                let startX;
-                container.addEventListener('touchstart', function(e) {
-                    startX = e.touches[0].clientX;
+                // Quando il video finisce, passa alla pagina 2 e avvia lo scorrimento automatico
+                video.addEventListener('ended', function() {
+                    resetCover(); // Ripristina l'immagine di copertina
+                    
+                    // Vai alla pagina 2 (dopo la fine del video)
+                    if (currentPage === 1) {
+                        changePage(1); 
+                    }
+                    
+                    // Avvia lo scorrimento automatico delle pagine
+                    startAutoScroll();
                 });
-
-                container.addEventListener('touchmove', function(e) {
-                    if (!startX || this.scrollWidth <= this.clientWidth) return;
-                    const x = e.touches[0].clientX;
-                    const walk = (startX - x) * 2;
-                    this.scrollLeft += walk;
-                    startX = x;
+                
+                // Gestione errori video
+                video.addEventListener('error', function() {
+                    clearTimeout(videoInteractionTimeout);
+                    videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile. Avvio scorrimento automatico.</p>';
+                    resetCover();
+                    if (currentPage === 1) {
+                        changePage(1); 
+                    }
+                    startAutoScroll();
+                });
+            } else {
+                 // Se il video non c'è, avvia lo scorrimento automatico dopo 3 secondi
+                 setTimeout(startAutoScroll, videoAutoStartTime);
+            }
+            
+            // Collega i pulsanti di paginazione a userChangePage per disattivare l'auto-scroll
+            const paginationButtons = document.querySelectorAll('.pagination .page-btn');
+            paginationButtons.forEach(button => {
+                // Rimuove l'handler onclick in HTML e aggiunge il listener JS
+                button.addEventListener('click', function() {
+                    const direction = this.innerText.includes('PRECEDENTE') ? -1 : 1;
+                    userChangePage(direction);
                 });
             });
-            
-            // Navigazione con tastiera
+
+
+            // Navigazione con tastiera - Chiama userChangePage per disattivare
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'ArrowLeft') {
-                    changePage(-1);
+                    userChangePage(-1);
                 } else if (e.key === 'ArrowRight') {
-                    changePage(1);
+                    userChangePage(1);
+                }
+            });
+
+            // LOGICA: Gestione dell'effetto ZOOM sulle immagini (NON MODIFICATA)
+            const zoomContainers = document.querySelectorAll('.image-container');
+
+            zoomContainers.forEach(container => {
+                const baseImage = container.querySelector('img');
+                
+                if (baseImage) {
+                    const zoomImage = document.createElement('img');
+                    zoomImage.src = baseImage.src; 
+                    zoomImage.alt = baseImage.alt + ' (Zoom)';
+                    zoomImage.classList.add('zoom-img');
+                    container.appendChild(zoomImage);
+                    
+                    function handleZoom(e) {
+                        e.preventDefault(); 
+                        const rect = container.getBoundingClientRect();
+                        
+                        const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                        const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+                        
+                        if (clientX === null) return; 
+                        
+                        let x = clientX - rect.left; 
+                        let y = clientY - rect.top; 
+
+                        x = Math.max(0, Math.min(x, rect.width));
+                        y = Math.max(0, Math.min(y, rect.height));
+
+                        const translateX = -x * 2; 
+                        const translateY = -y * 2;
+
+                        zoomImage.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                    }
+
+                    container.addEventListener('mousemove', handleZoom);
+                    container.addEventListener('mouseenter', () => { zoomImage.style.opacity = '1'; });
+                    container.addEventListener('mouseleave', () => { zoomImage.style.opacity = '0'; });
+
+                    container.addEventListener('touchstart', (e) => {
+                        zoomImage.style.opacity = '1';
+                        handleZoom(e);
+                    });
+                    container.addEventListener('touchmove', handleZoom); 
+                    container.addEventListener('touchend', () => { zoomImage.style.opacity = '0'; });
                 }
             });
         });
