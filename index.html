@@ -97,6 +97,20 @@
             text-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
             position: relative;
             z-index: 2;
+        } 
+
+        .cover h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #fbff00, #fd0202, #fbff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
+            position: relative;
+            z-index: 2;
         }
 
         .cover .subtitle {
@@ -628,7 +642,6 @@
             <div class="cover">
                 <h1>AiRFuN</h1>
                 <p class="subtitle">IL TUO MIGLIORE AMICO NELLE PULIZIE</p>
-                
                 <div class="media-interactive-container" id="videoContainer">
                     <img src="1.png" alt="AiRFuN - Prodotto Completo">
                     <video id="demoVideo" controls preload="none">
@@ -642,6 +655,9 @@
                 </div>
                 
                 <p>Clicca sul riquadro per avviare il video</p>
+                 <div class="big-number">
+                   <h1>PREORDINA ora AiRFuN a 59.90 per avere la seconda batteria in OMAGGIO!</h1>
+                   </div>
                 <div class="page-indicator">Pagina 1 di 10</div>
             </div>
         </div>
@@ -812,6 +828,9 @@
                         </div>
                     </div>
                 </div>
+                  <div class="big-number">
+                   <h3>PREORDINA ora AiRFuN a 59.90 per avere la seconda batteria in OMAGGIO!</h3>
+                   </div>
                 <div class="page-indicator">Pagina 6 di 10</div>
             </div>
         </div>
@@ -943,14 +962,17 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="big-number">
+                   <h3>PREORDINA ora AiRFuN a 59.90 per avere la seconda batteria in OMAGGIO!</h3>
+                   </div>
                 <div class="page-indicator">Pagina 10 di 10</div>
+                
             </div>
         </div>
     </div>
 
     <button class="preorder-btn" onclick="openPreorderModal()">
-        <i class="fas fa-cart-plus"></i> PREORDINA ORA
+        <i class="fas fa-cart-plus"></i> PREORDINA ORA a 59.90 + "seconda batteria in omaggio"
     </button>
 
     <button class="contact-btn" onclick="openContactModal()">
@@ -960,7 +982,7 @@
     <div id="preorderModal" class="preorder-modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closePreorderModal()">&times;</span>
-            <h2 class="preorder-title">PREORDINA AiRFuN</h2>
+            <h2 class="preorder-title">PREORDINA ora AiRFuN per avere la seconda batteria in OMAGGIO!</h2>
             
             <form class="preorder-form" action="https://formspree.io/f/mvgvajgv" method="POST">
                 <p style="text-align: center; margin-bottom: 20px;">Lasciaci i tuoi dati e sarai ricontattato per completare l'ordine!</p>
