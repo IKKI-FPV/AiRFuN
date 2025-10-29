@@ -1087,10 +1087,11 @@
 <script>
         let currentPage = 1;
         const totalPages = 10;
-        let autoScrollInterval = null; // Variabile per il timer di scorrimento
-        let isAutoScrollActive = false; // Flag per lo stato dello scorrimento automatico
+        let continuousScrollInterval = null; // Variabile per il timer di scorrimento CONTINUO (setInterval)
+        let initialWaitTimeout = null; // Variabile per la PAUSA INIZIALE (setTimeout)
+        let isAutoScrollActive = false; // Flag che indica se il loop continuo è attivo
         const autoScrollTime = 5000; // 5 secondi per transizione pagina
-        const videoAutoStartTime = 3000; // Tempo per l'avvio del carosello se il video non parte (3 secondi)
+        // Rimosso videoAutoStartTime: la pausa è ora gestita da initialWaitTimeout
 
         /**
          * Funzione principale per il cambio pagina.
@@ -1110,64 +1111,80 @@
             // Mostra nuova pagina
             document.getElementById('page' + currentPage).classList.add('active');
             
-            // Aggiorna indicatore di pagina (se vuoi mantenerlo)
-            document.querySelector('.page-indicator').textContent = 'Pagina ' + currentPage + ' di ' + totalPages;
+            // Aggiorna indicatore di pagina
+            // Nota: ho aggiunto un selettore di pagina mancante per l'indicatore nell'HTML, assicurati che sia presente in tutte le pagine!
+            const indicator = document.querySelector('#page' + currentPage + ' .page-indicator');
+            if (indicator) {
+                indicator.textContent = 'Pagina ' + currentPage + ' di ' + totalPages;
+            }
 
             // Scrolla in alto
             window.scrollTo(0, 0);
         }
 
         /**
-         * Funzione wrapper per il cambio pagina in seguito a interazione manuale dell'utente.
-         * Disattiva lo scorrimento automatico.
-         * @param {number} direction - La direzione del cambio pagina.
+         * Avvia il loop di scorrimento continuo (ogni 5 secondi).
          */
-        function userChangePage(direction) {
-            disableAutoScroll();
-            changePage(direction);
-        }
-        
-        /**
-         * Avvia lo scorrimento automatico delle pagine.
-         */
-        function startAutoScroll() {
-             // Imposta il flag su true la prima volta
-            if (!isAutoScrollActive) isAutoScrollActive = true; 
-            
-            // Pulisce qualsiasi intervallo esistente per evitare duplicati
-            clearInterval(autoScrollInterval); 
-            autoScrollInterval = setInterval(() => {
+        function startContinuousScroll() {
+            if (isAutoScrollActive) return; // Evita duplicati
+            isAutoScrollActive = true;
+            clearInterval(continuousScrollInterval); 
+            continuousScrollInterval = setInterval(() => {
                 changePage(1); // Vai alla pagina successiva
             }, autoScrollTime);
         }
         
         /**
-         * Disattiva lo scorrimento automatico in modo permanente dopo la prima interazione utente.
+         * Ferma tutti i timer (sia la pausa iniziale che il loop continuo).
          */
         function disableAutoScroll() {
-            clearInterval(autoScrollInterval);
-            isAutoScrollActive = false; // Imposta su false dopo l'interazione manuale
+            if (initialWaitTimeout) clearTimeout(initialWaitTimeout); 
+            clearInterval(continuousScrollInterval); 
+            isAutoScrollActive = false;
+        }
+
+        /**
+         * Avvia la pausa iniziale di 5 secondi e poi passa al loop continuo.
+         */
+        function startInitialWait() {
+            disableAutoScroll(); // Azzera tutti i timer prima di partire
+            initialWaitTimeout = setTimeout(() => {
+                if (currentPage === 1) {
+                    changePage(1); // Passa alla Pagina 2 dopo la pausa iniziale
+                }
+                startContinuousScroll(); // Avvia lo scorrimento continuo
+            }, autoScrollTime); // 5000ms di pausa iniziale
+        }
+
+        /**
+         * Wrapper per il cambio pagina manuale (disattiva l'auto-scroll).
+         */
+        function userChangePage(direction) {
+            disableAutoScroll();
+            changePage(direction);
         }
 
         /* Gestione Modali */
         function openContactModal() {
             document.getElementById('contactModal').style.display = 'flex';
-            clearInterval(autoScrollInterval); // Metti in pausa lo scorrimento
+            disableAutoScroll(); // Metti in pausa lo scorrimento
         }
 
         function closeContactModal() {
             document.getElementById('contactModal').style.display = 'none';
-            if (isAutoScrollActive) startAutoScroll(); // Riprendi se non è stato disattivato manualmente
+            // Quando si chiude la modale, riavvia la sequenza (dal timer di pausa iniziale)
+            startInitialWait(); 
         }
         
         function openPreorderModal() {
             document.getElementById('preorderModal').style.display = 'flex';
-            clearInterval(autoScrollInterval); // Metti in pausa lo scorrimento
+            disableAutoScroll(); // Metti in pausa lo scorrimento
         }
 
         function closePreorderModal() {
             document.getElementById('preorderModal').style.display = 'none';
-            if (isAutoScrollActive) startAutoScroll(); // Riprendi se non è stato disattivato manualmente
+            // Quando si chiude la modale, riavvia la sequenza (dal timer di pausa iniziale)
+            startInitialWait();
         }
         
         // Chiudi le modali se si clicca fuori dal contenuto
@@ -1189,7 +1206,6 @@
             const videoContainer = document.getElementById('videoContainer');
             const videoPlaceholderCover = document.getElementById('videoPlaceholderCover');
             const image = videoContainer.querySelector('img');
-            let videoInteractionTimeout = null; 
 
             // Funzione per ripristinare lo stato iniziale (immagine)
             function resetCover() {
@@ -1199,7 +1215,7 @@
                 image.style.opacity = '1';
                 videoPlaceholderCover.style.opacity = '1';
                 videoPlaceholderCover.style.display = 'flex';
-                video.muted = false; // Ripristina l'audio per l'interazione manuale successiva
+                video.muted = false; 
             }
             
             // Funzione per riprodurre il video
@@ -1209,87 +1225,61 @@
                 videoPlaceholderCover.style.opacity = '0';
                 videoPlaceholderCover.style.display = 'none';
                 
-                // Imposta su muted (silenzioso) per aumentare le possibilità di autoplay
-                video.muted = false;
-                
+                video.muted = false; // Riattiva l'audio per l'utente
+
                 const playPromise = video.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        // Autoplay bloccato dal browser. Avvia lo scorrimento dalla Pagina 1.
-                        console.error("Autoplay bloccato dal browser. Avvio scorrimento automatico dopo il tempo d'attesa.", error);
+                        // Autoplay bloccato. Lasciamo che il timer iniziale gestisca lo scorrimento.
+                        console.error("Autoplay bloccato. Pausa iniziale in corso.");
                         resetCover();
-                        // Non chiamiamo changePage(1) qui per non saltare la prima pagina!
-                        isAutoScrollActive = true; 
-                        startAutoScroll();
+                        // Importante: Non facciamo nulla qui per evitare di interferire con startInitialWait()
                     });
                 }
             }
 
+            // 1. AVVIA IL TIMER PRINCIPALE SUBITO
+            startInitialWait();
+            
             if (videoContainer && video) {
                 
-                // ***LOGICA DI INIZIO MODIFICATA***:
-                // Se l'autoplay del video NON parte, avvia lo scorrimento automatico dopo il ritardo.
-                // Usiamo un ritardo maggiore (3s) per dare il tempo di visualizzare la Pagina 1.
-                videoInteractionTimeout = setTimeout(() => {
-                    // Tenta di avviare il video (se riesce bene, altrimenti il catch lo gestirà)
-                    playVideo();
-                    
-                    // Se siamo ancora sulla Pagina 1 e l'auto-scroll non è partito, avvialo.
-                    if (currentPage === 1 && !isAutoScrollActive) {
-                       isAutoScrollActive = true;
-                       startAutoScroll();
-                    }
-                }, videoAutoStartTime);
+                // Tenta un'autoplay immediato per intercettare l'errore subito
+                setTimeout(playVideo, 100); 
 
                 // Interazione manuale del riquadro video
                 videoContainer.addEventListener('click', function() {
-                    clearTimeout(videoInteractionTimeout); // Annulla l'autoplay programmato
+                    disableAutoScroll(); // Ferma la pausa iniziale e il loop
                     if (video.paused) {
-                        video.muted = false; // Riattiva l'audio se l'utente clicca
                         playVideo();
                     }
-                    disableAutoScroll(); // Interazione utente blocca l'auto-scroll
                 });
 
-                // Quando il video finisce, passa alla pagina 2 e avvia lo scorrimento automatico
+                // Quando il video finisce
                 video.addEventListener('ended', function() {
-                    resetCover(); // Ripristina l'immagine di copertina
+                    resetCover(); 
                     
-                    // Vai alla pagina 2
                     if (currentPage === 1) {
-                        changePage(1); 
+                        changePage(1); // Vai alla pagina 2 subito dopo la fine
                     }
                     
-                    // Avvia lo scorrimento automatico delle pagine (se non è stato disabilitato manualmente prima)
-                    if (!isAutoScrollActive) {
-                       isAutoScrollActive = true;
-                       startAutoScroll();
-                    }
+                    startContinuousScroll(); // Avvia lo scorrimento continuo
                 });
                 
-                // Gestione errori video
+                // Gestione errori video (URL non trovato/errore di caricamento)
                 video.addEventListener('error', function() {
-                    clearTimeout(videoInteractionTimeout);
-                    videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile. Avvio scorrimento automatico.</p>';
+                    console.error("Errore nel caricamento del video. La pausa iniziale prosegue.");
+                    videoPlaceholderCover.innerHTML = '<i class="fas fa-exclamation-triangle"></i><p>Video non disponibile.</p>';
                     resetCover();
-                    
-                    // Avvia lo scorrimento dalla Pagina 1 dopo il tempo d'attesa se non è stato avviato
-                    if (currentPage === 1 && !isAutoScrollActive) {
-                       isAutoScrollActive = true;
-                       startAutoScroll();
-                    }
+                    // Non avviare l'auto-scroll qui, ci penserà il timer iniziale.
                 });
             } else {
-                 // Se il video non c'è, avvia lo scorrimento automatico dopo il ritardo iniziale
-                 isAutoScrollActive = true;
-                 setTimeout(startAutoScroll, videoAutoStartTime);
+                 // No video: Il timer startInitialWait() è già avviato e gestirà tutto.
             }
             
             // Collega i pulsanti di paginazione a userChangePage per disattivare l'auto-scroll
             const paginationButtons = document.querySelectorAll('.pagination .page-btn');
             paginationButtons.forEach(button => {
-                // Rimuove l'handler onclick in HTML e aggiunge il listener JS
                 button.addEventListener('click', function() {
                     const direction = this.innerText.includes('PRECEDENTE') ? -1 : 1;
                     userChangePage(direction);
