@@ -621,7 +621,7 @@
             }
             
             .cover h1 {
-                font-size: 3rem; /* Aumento leggero per h1 della copertina */
+                font-size: 3.5rem; /* Aumento leggero per h1 della copertina */
             }
 
             .specs-grid {
@@ -1087,7 +1087,7 @@
         let continuousScrollInterval = null; // Variabile per il timer di scorrimento CONTINUO (setInterval)
         let initialWaitTimeout = null; // Variabile per la PAUSA INIZIALE (setTimeout)
         let isAutoScrollActive = false; // Flag che indica se il loop continuo è attivo
-        const autoScrollTime = 5000; // 5 secondi per transizione pagina
+        const autoScrollTime = 6500; // 5 secondi per transizione pagina
         // Rimosso videoAutoStartTime: la pausa è ora gestita da initialWaitTimeout
 
         /**
@@ -1242,7 +1242,7 @@
             if (videoContainer && video) {
                 
                 // Tenta un'autoplay immediato per intercettare l'errore subito
-                setTimeout(playVideo, 100); 
+                setTimeout(playVideo, 1000); 
 
                 // Interazione manuale del riquadro video
                 videoContainer.addEventListener('click', function() {
